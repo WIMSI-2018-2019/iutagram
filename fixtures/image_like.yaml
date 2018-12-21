@@ -1,0 +1,4 @@
+App\Entity\ImageLike:
+  image_like__{1..300}:
+      author: '@user__*'
+      subject: '@image__*'

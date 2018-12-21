@@ -1,0 +1,5 @@
+App\Entity\Image:
+  image__{1..100}:
+    path: <imageUrl()>
+    text: <text()>
+    user: '@user__*'

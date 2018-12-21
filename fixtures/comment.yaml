@@ -1,0 +1,5 @@
+App\Entity\Comment:
+    comment__{1..300}:
+        author: '@user__*'
+        subject: '@image__*'
+        text: <text()>
