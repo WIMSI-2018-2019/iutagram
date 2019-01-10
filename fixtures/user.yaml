@@ -2,3 +2,4 @@ App\Entity\User:
   user__{1..10}:
     email: 'user_<current()>\@iutagram.dev'
     plainPassword: user_<current()>
+    password: user_<current()>
