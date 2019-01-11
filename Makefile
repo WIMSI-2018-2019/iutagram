@@ -9,6 +9,7 @@ reset:
 	docker-compose exec app bin/console doctrine:schema:drop --force
 	docker-compose exec app bin/console doctrine:schema:update --force
 	docker-compose exec app bin/console hautelook:fixtures:load --no-interaction
+	docker-compose exec app bin/console user:make-friends
 
 db:
 	docker-compose exec database mysql -uroot -proot iutagram

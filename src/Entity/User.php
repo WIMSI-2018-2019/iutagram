@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "get"={"normalization_context"={"groups"={"get_user", "timestamps"}}}
  *     },
  * )
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table()
  * @ORM\HasLifecycleCallbacks()
  */
@@ -65,6 +65,24 @@ class User implements UserInterface
     private $images;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="followers", cascade={"persist"})
+     * @ORM\JoinTable(
+     *     joinColumns={@ORM\JoinColumn(name="follower_id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="follow_id")}
+     * )
+     *
+     * @var Collection<User>
+     */
+    private $follows;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="follows")
+     *
+     * @var Collection<User>
+     */
+    private $followers;
+
+    /**
      * @ORM\Column(type="json")
      *
      * @var array
@@ -73,7 +91,9 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->images = new ArrayCollection;
+        $this->images    = new ArrayCollection;
+        $this->followers = new ArrayCollection();
+        $this->follows   = new ArrayCollection();
     }
 
     public function getId(): int
@@ -113,10 +133,37 @@ class User implements UserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        $roles   = $this->roles;
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    /**
+     * @return Collection<User>
+     */
+    public function getFollows(): Collection
+    {
+        return $this->follows;
+    }
+
+    public function setFollows(array $follows): void
+    {
+        $this->follows = new ArrayCollection($follows);
+    }
+
+    /**
+     * @return Collection<User>
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+
+    public function setFollowers(array $followers): void
+    {
+        $this->followers = new ArrayCollection($followers);
     }
 
     public function setRoles(array $roles): void
@@ -145,5 +192,10 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         $this->plainPassword = null;
+    }
+
+    public function __toString()
+    {
+        return $this->getEmail();
     }
 }
