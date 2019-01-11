@@ -6,7 +6,7 @@ services:
       context: .
       target:  app
     ports: ['8000:8000']
-    volumes: ['.:/app']
+    volumes: ['.:/app:cached']
     working_dir: /app
     command: bin/console server:run 0.0.0.0:8000
 

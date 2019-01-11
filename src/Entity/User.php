@@ -9,9 +9,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={
+ *          "get"={"normalization_context"={"groups"={"get_user", "timestamps"}}}
+ *     },
+ * )
  * @ORM\Entity()
  * @ORM\Table()
  * @ORM\HasLifecycleCallbacks()
@@ -30,6 +36,7 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Groups({"get_user", "get_comment", "get_image"})
      * @ORM\Column(type="string")
      *
      * @var string
@@ -49,6 +56,8 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
+     * @Groups({"get_user"})
+     * @ORM\OrderBy({"createdAt"="DESC"})
      * @ORM\OneToMany(targetEntity="Image", mappedBy="user")
      *
      * @var Collection<Image>

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait HasTimestamp
 {
     /**
+     * @Groups({"timestamps", "created_at"})
      * @ORM\Column(type="datetime_immutable");
      *
      * @var \DateTimeInterface
@@ -16,6 +18,7 @@ trait HasTimestamp
     private $createdAt;
 
     /**
+     * @Groups({"timestamps", "updated_at"})
      * @ORM\Column(type="datetime_immutable");
      *
      * @var \DateTimeInterface

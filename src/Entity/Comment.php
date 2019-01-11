@@ -6,9 +6,15 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={
+ *          "get"={"normalization_context"={"groups"={"get_comment", "timestamps"}}}
+ *     },
+ * )
  * @ORM\Entity()
  * @ORM\Table()
  * @ORM\HasLifecycleCallbacks()
@@ -27,6 +33,7 @@ class Comment
     private $id;
 
     /**
+     * @Groups({"get_comment", "get_image"})
      * @ORM\ManyToOne(targetEntity="User")
      *
      * @var User
@@ -34,6 +41,7 @@ class Comment
     private $author;
 
     /**
+     * @Groups({"get_comment"})
      * @ORM\ManyToOne(targetEntity="Image", inversedBy="comments")
      *
      * @var Image
@@ -41,6 +49,7 @@ class Comment
     private $subject;
 
     /**
+     * @Groups({"get_comment", "get_image"})
      * @ORM\Column(type="text")
      *
      * @var string

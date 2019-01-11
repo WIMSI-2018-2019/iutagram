@@ -8,9 +8,15 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={
+ *          "get"={"normalization_context"={"groups"={"get_image", "timestamps"}}}
+ *     }
+ * )
  * @ORM\Entity()
  * @ORM\Table()
  * @ORM\HasLifecycleCallbacks()
@@ -29,6 +35,7 @@ class Image
     private $id;
 
     /**
+     * @Groups({"get_image", "get_comment"})
      * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
      *
      * @var User
@@ -36,6 +43,7 @@ class Image
     private $user;
 
     /**
+     * @Groups({"get_image", "get_user", "get_comment"})
      * @ORM\Column(type="string")
      *
      * @var string
@@ -43,6 +51,7 @@ class Image
     private $path;
 
     /**
+     * @Groups({"get_image", "get_user", "get_comment"})
      * @ORM\Column(type="text", nullable=false)
      *
      * @var string
@@ -50,6 +59,8 @@ class Image
     private $text;
 
     /**
+     * @Groups({"get_image"})
+     * @ORM\OrderBy({"createdAt"="DESC"})
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="subject")
      *
      * @var Collection<Comment>
@@ -118,5 +129,13 @@ class Image
     public function getLikes(): Collection
     {
         return $this->likes;
+    }
+
+    /**
+     * @Groups({"get_image", "get_user"})
+     */
+    public function getNbLikes(): int
+    {
+        return count($this->getLikes());
     }
 }
