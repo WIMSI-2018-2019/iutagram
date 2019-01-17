@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,10 +14,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     collectionOperations={},
+ *     collectionOperations={
+ *          "api_users_follows_get_subresource"={"normalization_context"={"groups"={"get_user_follows", "timestamps"}}}
+ *     },
  *     itemOperations={
  *          "get"={"normalization_context"={"groups"={"get_user", "timestamps"}}}
- *     },
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table()
@@ -36,7 +39,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @Groups({"get_user", "get_comment", "get_image"})
+     * @Groups({"get_user", "get_comment", "get_image", "get_user_follows"})
      * @ORM\Column(type="string")
      *
      * @var string
@@ -56,7 +59,7 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
-     * @Groups({"get_user"})
+     * @Groups({"get_user", "get_user_follows"})
      * @ORM\OrderBy({"createdAt"="DESC"})
      * @ORM\OneToMany(targetEntity="Image", mappedBy="user")
      *
@@ -65,6 +68,7 @@ class User implements UserInterface
     private $images;
 
     /**
+     * @ApiSubresource
      * @ORM\ManyToMany(targetEntity="User", inversedBy="followers", cascade={"persist"})
      * @ORM\JoinTable(
      *     joinColumns={@ORM\JoinColumn(name="follower_id")},

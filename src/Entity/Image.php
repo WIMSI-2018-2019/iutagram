@@ -43,7 +43,7 @@ class Image
     private $user;
 
     /**
-     * @Groups({"get_image", "get_user", "get_comment"})
+     * @Groups({"get_image", "get_user", "get_comment", "get_user_follows"})
      * @ORM\Column(type="string")
      *
      * @var string
@@ -51,7 +51,7 @@ class Image
     private $path;
 
     /**
-     * @Groups({"get_image", "get_user", "get_comment"})
+     * @Groups({"get_image", "get_user", "get_comment", "get_user_follows"})
      * @ORM\Column(type="text", nullable=false)
      *
      * @var string
@@ -132,7 +132,7 @@ class Image
     }
 
     /**
-     * @Groups({"get_image", "get_user"})
+     * @Groups({"get_image", "get_user", "get_user_follows"})
      */
     public function getNbLikes(): int
     {
