@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
+ *     accessControl="is_granted('ROLE_USER')",
  *     collectionOperations={
  *          "api_users_follows_get_subresource"={"normalization_context"={"groups"={"get_user_follows", "timestamps"}}}
  *     },
