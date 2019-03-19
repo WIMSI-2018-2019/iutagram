@@ -1,0 +1,31 @@
+{
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.22.0",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server --host 0.0.0.0",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@babel/polyfill": "^7.2.5",
+        "@babel/preset-react": "^7.0.0",
+        "node-sass": "^4.11.0",
+        "prop-types": "^15.6.2",
+        "react": "^16.7.0",
+        "react-dom": "^16.7.0",
+        "react-redux": "^6.0.0",
+        "react-router": "^4.3.1",
+        "react-router-dom": "^4.3.1",
+        "redux": "^4.0.1",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.3.0",
+        "sass-loader": "^7.1.0",
+        "semantic-ui-css": "^2.4.1",
+        "semantic-ui-react": "^0.85.0"
+    }
+}

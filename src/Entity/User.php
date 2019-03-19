@@ -40,7 +40,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @Groups({"get_user", "get_comment", "get_image", "get_user_follows"})
+     * @Groups({"get_user", "get_comment", "get_images", "get_image", "get_user_follows"})
      * @ORM\Column(type="string")
      *
      * @var string

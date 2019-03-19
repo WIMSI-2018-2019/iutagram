@@ -12,7 +12,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *     collectionOperations={},
+ *     collectionOperations={
+ *          "get"={"normalization_context"={"groups"={"get_images", "timestamps"}}}
+ *     },
  *     itemOperations={
  *          "get"={"normalization_context"={"groups"={"get_image", "timestamps"}}}
  *     }
@@ -35,7 +37,7 @@ class Image
     private $id;
 
     /**
-     * @Groups({"get_image", "get_comment"})
+     * @Groups({"get_images", "get_image", "get_comment"})
      * @ORM\ManyToOne(targetEntity="User", inversedBy="images")
      *
      * @var User
@@ -43,7 +45,7 @@ class Image
     private $user;
 
     /**
-     * @Groups({"get_image", "get_user", "get_comment", "get_user_follows"})
+     * @Groups({"get_images", "get_image", "get_user", "get_comment", "get_user_follows"})
      * @ORM\Column(type="string")
      *
      * @var string
@@ -51,7 +53,7 @@ class Image
     private $path;
 
     /**
-     * @Groups({"get_image", "get_user", "get_comment", "get_user_follows"})
+     * @Groups({"get_images", "get_image", "get_user", "get_comment", "get_user_follows"})
      * @ORM\Column(type="text", nullable=false)
      *
      * @var string
@@ -132,10 +134,18 @@ class Image
     }
 
     /**
-     * @Groups({"get_image", "get_user", "get_user_follows"})
+     * @Groups({"get_images", "get_image", "get_user", "get_user_follows"})
      */
     public function getNbLikes(): int
     {
         return count($this->getLikes());
+    }
+
+    /**
+     * @Groups({"get_images", "get_image", "get_user", "get_user_follows"})
+     */
+    public function getNbComments(): int
+    {
+        return count($this->getComments());
     }
 }
